@@ -70,15 +70,19 @@ void addBlock(){
   blockCount++;
 }
 
-void drawRect(uint16_t x, uint16_t y){
+void drawRect(uint16_t x, uint16_t y, uint8_t color){
   uint16_t leftCorner = x-((rectSide-1)/2);
   uint16_t upperCorner = y-((rectSide-1)/2);
 
-  display.drawRect(leftCorner,upperCorner,rectSide,rectSide,WHITE);
+  display.drawRect(leftCorner,upperCorner,rectSide,rectSide,color);
   display.display();
 }
 
 void drawFilledCircle(){
+  display.drawCircle(circleCoordinates[0], circleCoordinates[1], circleRadius, BLACK);
+  display.fillCircle(circleCoordinates[0], circleCoordinates[1], circleRadius, BLACK);
+  display.display();
+
   circleCoordinates[0] = coordinateX[random(17)];
   circleCoordinates[1] = coordinateY[random(8)];
 
@@ -89,11 +93,9 @@ void drawFilledCircle(){
 
 //draw the whole frame
 void drawField(){
-  display.clearDisplay();
-
   //draw snake
   for(uint8_t i = 0; i<blockCount; i++){
-    drawRect(SNAKE[i].x, SNAKE[i].y);
+    drawRect(SNAKE[i].x, SNAKE[i].y,WHITE);
   }
 }
 
@@ -119,6 +121,8 @@ void checkGameOver(){
 }
 
 void moveSnake(){
+  drawRect(SNAKE[blockCount-1].x, SNAKE[blockCount-1].y, BLACK);
+
   //move segments right
   for(int8_t i = blockCount-2; i>=0; i--){
     SNAKE[i+1].setBlock(&SNAKE[i]);
@@ -215,15 +219,16 @@ void loop() {
     if(millis() - t2> 3000){
       move = millis();
       state = 1;
+      display.clearDisplay();
     }
   }
   else if(state == 1){
     checkGameOver();
     checkCollision();
-    drawField();
 
     //refresh screen every second
     if(millis() - move > 1000){
+      drawField();
       moveSnake();
       move = millis();
     }
@@ -262,6 +267,7 @@ void loop() {
 
     if(millis() - t> 5000){
         state = 1;
+        display.clearDisplay();
         reset();
     }
   }

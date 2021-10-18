@@ -10,28 +10,27 @@
             "includePath": [
                 "D:/#DATA/Programming/Arduino/Snake/include",
                 "D:/#DATA/Programming/Arduino/Snake/src",
+                "C:/Users/marti/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+                "C:/Users/marti/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+                "C:/Users/marti/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                 "C:/Users/marti/.platformio/packages/framework-arduino-avr/cores/arduino",
                 "C:/Users/marti/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs",
                 "C:/Users/marti/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
                 "C:/Users/marti/.platformio/packages/framework-arduino-avr/libraries/HID/src",
-                "C:/Users/marti/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
-                "C:/Users/marti/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
-                "C:/Users/marti/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
-                "",
-                "${workspaceFolder}/src/Adafruit_GFX_Library"
+                ""
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "path": [
                     "D:/#DATA/Programming/Arduino/Snake/include",
                     "D:/#DATA/Programming/Arduino/Snake/src",
+                    "C:/Users/marti/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+                    "C:/Users/marti/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+                    "C:/Users/marti/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                     "C:/Users/marti/.platformio/packages/framework-arduino-avr/cores/arduino",
                     "C:/Users/marti/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs",
                     "C:/Users/marti/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
                     "C:/Users/marti/.platformio/packages/framework-arduino-avr/libraries/HID/src",
-                    "C:/Users/marti/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
-                    "C:/Users/marti/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
-                    "C:/Users/marti/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                     ""
                 ]
             },
