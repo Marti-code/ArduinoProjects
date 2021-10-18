@@ -29,7 +29,7 @@ int8_t coordinateY[8] = {7,14,21,28,35,42,49,56};
 int8_t circleCoordinates[2] = {};
 
 uint8_t direction = UP;
-uint8_t move = millis();
+uint32_t move = millis();
 
 SoftwareSerial serial(10,11);
 Adafruit_SSD1306 display(128, 64);
@@ -53,6 +53,27 @@ struct Block{
 
 Block SNAKE[20];
 
+enum Dim{
+  x = 0,
+  y = 1
+};
+
+bool checkIfInsideSnake(Dim d, uint8_t value){
+  for(uint8_t i = 0; i<blockCount; i++){
+    if(d == x){
+      if(SNAKE[i].x == value){
+        return true;
+      }
+    }
+    else{
+      if(SNAKE[i].y == value){
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
 //make tail longer
 void addBlock(){
   if(direction == UP){
@@ -75,20 +96,28 @@ void drawRect(uint16_t x, uint16_t y, uint8_t color){
   uint16_t upperCorner = y-((rectSide-1)/2);
 
   display.drawRect(leftCorner,upperCorner,rectSide,rectSide,color);
-  display.display();
+  //display.display();
 }
 
 void drawFilledCircle(){
   display.drawCircle(circleCoordinates[0], circleCoordinates[1], circleRadius, BLACK);
   display.fillCircle(circleCoordinates[0], circleCoordinates[1], circleRadius, BLACK);
-  display.display();
+  //display.display();
 
-  circleCoordinates[0] = coordinateX[random(17)];
-  circleCoordinates[1] = coordinateY[random(8)];
+  uint8_t randomX;
+  uint8_t randomY;
+
+  do{
+    randomX = coordinateX[random(17)];
+    randomY = coordinateY[random(8)];
+  }while(checkIfInsideSnake(x,randomX) || checkIfInsideSnake(y, randomY));
+
+  circleCoordinates[0] = randomX;
+  circleCoordinates[1] = randomY;
 
   display.drawCircle(circleCoordinates[0], circleCoordinates[1], circleRadius, WHITE);
   display.fillCircle(circleCoordinates[0], circleCoordinates[1], circleRadius, WHITE);
-  display.display();
+  //display.display();
 }
 
 //draw the whole frame
@@ -208,6 +237,7 @@ void setup() {
   circleCoordinates[1] = coordinateY[random(8)];
 
   t2 = millis();
+  move = millis();
 }
 
 void loop() {
@@ -217,7 +247,6 @@ void loop() {
     display.display(); 
 
     if(millis() - t2> 3000){
-      move = millis();
       state = 1;
       display.clearDisplay();
     }
@@ -227,10 +256,10 @@ void loop() {
     checkCollision();
 
     //refresh screen every second
-    if(millis() - move > 1000){
+    if(millis() - move >100){
+      move = millis();
       drawField();
       moveSnake();
-      move = millis();
     }
 
     if(!digitalRead(UP)){
