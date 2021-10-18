@@ -256,7 +256,7 @@ void loop() {
     checkCollision();
 
     //refresh screen every second
-    if(millis() - move >100){
+    if(millis() - move >150){
       move = millis();
       drawField();
       moveSnake();
