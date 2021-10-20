@@ -134,8 +134,8 @@ void checkCollision(){
   display.display();
 
   if(SNAKE[0].x == circleCoordinates[0] && SNAKE[0].y == circleCoordinates[1]){
-    drawFilledCircle();
     addBlock();
+    drawFilledCircle();
     points++;
   }
 }
@@ -145,6 +145,7 @@ void checkGameOver(){
     if(SNAKE[0].x == SNAKE[i].x && SNAKE[0].y == SNAKE[i].y){
       t = millis();
       state = 2;
+      break;
     }
   }
 }
@@ -163,7 +164,7 @@ void moveSnake(){
     SNAKE[0].y-=rectSide;
 
     //check the boundaries
-    if(SNAKE[0].y == 0){
+    if(SNAKE[0].y <= 0){
       SNAKE[0].y = 63;
     }
   }
@@ -171,7 +172,7 @@ void moveSnake(){
     SNAKE[0].setBlock(&SNAKE[1]);
     SNAKE[0].x+=rectSide;
 
-    if(SNAKE[0].x == 127){
+    if(SNAKE[0].x >= 127){
       SNAKE[0].x = 1;
     }
   }
@@ -179,7 +180,7 @@ void moveSnake(){
     SNAKE[0].setBlock(&SNAKE[1]);
     SNAKE[0].x-=rectSide;
 
-    if(SNAKE[0].x == 1){
+    if(SNAKE[0].x <= 1){
       SNAKE[0].x = 127;
     }
   }
@@ -187,20 +188,21 @@ void moveSnake(){
     SNAKE[0].setBlock(&SNAKE[1]);
     SNAKE[0].y+=rectSide;
 
-    if(SNAKE[0].y == 63){
+    if(SNAKE[0].y >= 63){
       SNAKE[0].y = 0;
     }
   }
 }
 
 void reset(){
+  direction = UP;
   memset(SNAKE, 0, 20*sizeof(Block));
   blockCount = 0;
   SNAKE[blockCount] =  Block(22,21);
   blockCount++;
   addBlock();
   addBlock();
-  direction = UP;
+  points = 0;
 }
 
 void setup() {
@@ -209,7 +211,7 @@ void setup() {
 
   //init display
   if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)){
-      Serial.println("Failed to init OLED...\r\n");
+      serial.println("Failed to init OLED...\r\n");
       for(;;);
   }
 
@@ -252,8 +254,8 @@ void loop() {
     }
   }
   else if(state == 1){
-    checkGameOver();
     checkCollision();
+    checkGameOver();
 
     //refresh screen every second
     if(millis() - move >150){
@@ -298,6 +300,7 @@ void loop() {
         state = 1;
         display.clearDisplay();
         reset();
+        t = millis();
     }
   }
 }
