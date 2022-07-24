@@ -117,6 +117,7 @@ void buttonsAction(){
       if (menu_position == TTT){
         state = TTT;
         display.clearDisplay();
+        ttt_setup();
       }
       else{
         state = SNAKE;
@@ -133,6 +134,7 @@ void buttonsAction(){
     if(kHit == KOK){
       tone(sound,8000, 60);
       state = MENU;
+      display.setTextSize(1);
       display.clearDisplay();
     
       //clear key
@@ -220,6 +222,10 @@ void ttt_checkWin(){
     if(notEmpty==9){
       ttt_changeState(3);
     }
+}
+
+void ttt_setup(){
+  display.setTextSize(2);
 }
 
 void ttt_loop(){
