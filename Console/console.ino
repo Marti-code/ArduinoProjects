@@ -225,6 +225,9 @@ void ttt_checkWin(){
 }
 
 void ttt_setup(){
+  memset(ttt_fields, 0,9);
+  ttt_turn = 0;
+  ttt_t = 0;
   display.setTextSize(2);
 }
 
