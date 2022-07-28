@@ -41,6 +41,10 @@ uint8_t state = MENU;
 uint8_t menu_position = TTT;
 
 void buttonsRoutine(){
+  if(kImage != 0){
+    kTime = millis();
+    return;
+  }
   if(millis() - kTime > 100){
 
     if(!digitalRead(K1)){
@@ -137,6 +141,7 @@ void buttonsRoutine(){
       if(kImage_temp == KOK){
         kImage_temp = 0;
         kImage = KOK;
+        delay(100);
       }
       else{
         kImage_temp = KOK;
@@ -147,6 +152,7 @@ void buttonsRoutine(){
       if(kImage_temp == KNAV){
         kImage_temp = 0;
         kImage = KNAV;
+        delay(100);
       }
       else{
         kImage_temp = KNAV;
@@ -301,13 +307,14 @@ void ttt_checkWin(){
     if(notEmpty==9){
       ttt_changeState(3);
       //play a draw song 
-      tone(sound, 1200, 800);
+      tone(sound, 2200, 400);
     }
 }
 
 void ttt_setup(){
   memset(ttt_fields, 0,9);
   ttt_turn = 0;
+  ttt_state = 0;
   ttt_t = 0;
   ttt_t2 = millis();
 }
@@ -337,6 +344,7 @@ void ttt_loop(){
       if(ttt_fields[0]==0){
         display.setCursor(16, 4);
         ttt_clickKey(0);
+        delay(100);
       }
       else{
         tone(sound, 2000, 100);
@@ -349,6 +357,7 @@ void ttt_loop(){
       if(ttt_fields[1]==0){
         display.setCursor(60, 4);
         ttt_clickKey(1);
+        delay(100);
       }
       else{
         tone(sound, 2000, 100);
@@ -361,6 +370,7 @@ void ttt_loop(){
       if(ttt_fields[2]==0){
         display.setCursor(104, 4);
         ttt_clickKey(2);
+        delay(100);
       }
       else{
         tone(sound, 2000, 100);
@@ -373,6 +383,7 @@ void ttt_loop(){
       if(ttt_fields[3]==0){
         display.setCursor(16,27);
         ttt_clickKey(3);
+        delay(100);
       }
       else{
         tone(sound, 2000, 100);
@@ -385,6 +396,7 @@ void ttt_loop(){
       if(ttt_fields[4]==0){
         display.setCursor(60,27);
         ttt_clickKey(4);
+        delay(100);
       }
       else{
         tone(sound, 2000, 100);
@@ -397,6 +409,7 @@ void ttt_loop(){
       if(ttt_fields[5]==0){
         display.setCursor(104, 27);
         ttt_clickKey(5);
+        delay(100);
       }
       else{
         tone(sound, 2000, 100);
@@ -409,6 +422,7 @@ void ttt_loop(){
       if(ttt_fields[6]==0){
         display.setCursor(16,50);
         ttt_clickKey(6);
+        delay(100);
       }
       else{
         tone(sound, 2000, 100);
@@ -421,6 +435,7 @@ void ttt_loop(){
       if(ttt_fields[7]==0){
         display.setCursor(60, 50);
         ttt_clickKey(7);
+        delay(100);
       }
       else{
         tone(sound, 2000, 100);
@@ -433,6 +448,7 @@ void ttt_loop(){
       if(ttt_fields[8]==0){
         display.setCursor(104, 50);
         ttt_clickKey(8);
+        delay(100);
       }
       else{
         tone(sound, 2000, 100);
@@ -713,18 +729,30 @@ void snake_loop(){
     if(kImage == UP){
       if(snake_direction == DOWN) snake_direction = DOWN;
       else snake_direction = UP;
+
+      //clear key
+      kImage = 0;
     }
     if(kImage == RIGHT){
       if(snake_direction == LEFT) snake_direction = LEFT;
       else snake_direction = RIGHT;
+
+      //clear key
+      kImage = 0;
     }
     if(kImage == LEFT){
       if(snake_direction == RIGHT) snake_direction = RIGHT;
       else snake_direction = LEFT;
+      
+      //clear key
+      kImage = 0;
     }
     if(kImage == DOWN){
       if(snake_direction == UP) snake_direction = UP;
       else snake_direction = DOWN;
+      
+      //clear key
+      kImage = 0;
     }
   }
   else if(snake_state == 2){
