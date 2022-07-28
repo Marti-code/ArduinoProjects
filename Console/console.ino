@@ -28,7 +28,9 @@ Adafruit_SSD1306 display(128, 64);
 #define K8 3
 #define K9 2
 
-uint8_t kHit = 0; //last pressed key
+uint64_t kTime = 0;
+uint8_t kImage_temp = 0;
+uint8_t kImage = 0; //last pressed key
 
 //states
 #define MENU 0
@@ -39,68 +41,128 @@ uint8_t state = MENU;
 uint8_t menu_position = TTT;
 
 void buttonsRoutine(){
-  if(!digitalRead(K1)){
-    kHit = K1;
-    
-    while(!digitalRead(K1));
-  }
-  if(!digitalRead(K2)){
-    kHit = K2;
-    
-    while(!digitalRead(K2));
-  }
-  if(!digitalRead(K3)){
-    kHit = K3;
-    
-    while(!digitalRead(K3));
-  }
-  if(!digitalRead(K4)){
-    kHit = K4;
-    
-    while(!digitalRead(K4));
-  }
-  if(!digitalRead(K5)){
-    kHit = K5;
-    
-    while(!digitalRead(K5));
-  }
-  if(!digitalRead(K6)){
-    kHit = K6;
-    
-    while(!digitalRead(K6));
-  }
-  if(!digitalRead(K7)){
-    kHit = K7;
-    
-    while(!digitalRead(K7));
-  }
-  if(!digitalRead(K8)){
-    kHit = K8;
-    
-    while(!digitalRead(K8));
-  }
-  if(!digitalRead(K9)){
-    kHit = K9;
-    
-    while(!digitalRead(K9));
-  }
-  if(!digitalRead(KOK)){
-    kHit = KOK;
-    
-    while(!digitalRead(KOK));
-  }
-  if(!digitalRead(KNAV)){
-    kHit = KNAV;
-    
-    while(!digitalRead(KNAV));
+  if(millis() - kTime > 100){
+
+    if(!digitalRead(K1)){
+      if(kImage_temp == K1){
+        kImage_temp = 0;
+        kImage = K1;
+      }
+      else{
+        kImage_temp = K1;
+      }
+      return;
+    }
+    if(!digitalRead(K2)){
+      if(kImage_temp == K2){
+        kImage_temp = 0;
+        kImage = K2;
+      }
+      else{
+        kImage_temp = K2;
+      }
+      return;
+    }
+    if(!digitalRead(K3)){
+      if(kImage_temp == K3){
+        kImage_temp = 0;
+        kImage = K3;
+      }
+      else{
+        kImage_temp = K3;
+      }
+      return;
+    }
+    if(!digitalRead(K4)){
+      if(kImage_temp == K4){
+        kImage_temp = 0;
+        kImage = K4;
+      }
+      else{
+        kImage_temp = K4;
+      }
+      return;
+    }
+    if(!digitalRead(K5)){
+      if(kImage_temp == K5){
+        kImage_temp = 0;
+        kImage = K5;
+      }
+      else{
+        kImage_temp = K5;
+      }
+      return;
+    }
+    if(!digitalRead(K6)){
+      if(kImage_temp == K6){
+        kImage_temp = 0;
+        kImage = K6;
+      }
+      else{
+        kImage_temp = K6;
+      }
+      return;
+    }
+    if(!digitalRead(K7)){
+      if(kImage_temp == K7){
+        kImage_temp = 0;
+        kImage = K7;
+      }
+      else{
+        kImage_temp = K7;
+      }
+      return;
+    }
+    if(!digitalRead(K8)){
+      if(kImage_temp == K8){
+        kImage_temp = 0;
+        kImage = K8;
+      }
+      else{
+        kImage_temp = K8;
+      }
+      return;
+    }
+    if(!digitalRead(K9)){
+      if(kImage_temp == K9){
+        kImage_temp = 0;
+        kImage = K9;
+      }
+      else{
+        kImage_temp = K9;
+      }
+      return;
+    }
+    if(!digitalRead(KOK)){
+      if(kImage_temp == KOK){
+        kImage_temp = 0;
+        kImage = KOK;
+      }
+      else{
+        kImage_temp = KOK;
+      }
+      return;
+    }
+    if(!digitalRead(KNAV)){
+      if(kImage_temp == KNAV){
+        kImage_temp = 0;
+        kImage = KNAV;
+      }
+      else{
+        kImage_temp = KNAV;
+      }
+      return;
+    }
+
+    kTime = millis();
   }
 }
 
 void buttonsAction(){
   if (state == MENU){
     //nav hit -> switch menu position
-    if (kHit == KNAV){
-      tone(sound,8000, 30);
+    if (kImage == KNAV){
+      tone(sound,8000, 20);
       if (menu_position == TTT){
         menu_position = SNAKE;
       }
@@ -109,11 +171,11 @@ void buttonsAction(){
       }
 
       //clear key
-      kHit = 0;
+      kImage = 0;
     }
     //ok hit -> switch to selected game
-    if(kHit == KOK){
-      tone(sound,8000, 60);
+    if(kImage == KOK){
+      tone(sound,8000, 30);
       if (menu_position == TTT){
         state = TTT;
         display.clearDisplay();
@@ -126,30 +188,30 @@ void buttonsAction(){
       }
       
       //clear key
-      kHit = 0;
+      kImage = 0;
     }
   }
   else if(state == TTT){
     //ok hit -> switch to menu
-    if(kHit == KOK){
-      tone(sound,8000, 60);
+    if(kImage == KOK){
+      tone(sound,8000, 30);
       state = MENU;
       display.setTextSize(1);
       display.clearDisplay();
     
       //clear key
-      kHit = 0;
+      kImage = 0;
     }
   }
   else if(state == SNAKE){
     //ok hit -> switch to menu
-    if(kHit == KOK){
-      tone(sound,8000, 60);
+    if(kImage == KOK){
+      tone(sound,8000, 30);
       state = MENU;
       display.clearDisplay();
       
       //clear key
-      kHit = 0;
+      kImage = 0;
     }
   }
 }
@@ -158,12 +220,13 @@ void buttonsAction(){
 //  TTT                //
 /////////////////////////
 
-//GAME - 1, WON - 2, DRAW - 3
-uint8_t ttt_state = 1;
+//TTT - 0, GAME - 1, WON - 2, DRAW - 3
+uint8_t ttt_state = 0;
 
 uint8_t ttt_fields[9]={};
 uint8_t ttt_turn = 0;
 uint32_t ttt_t = 0;
+uint32_t ttt_t2 = 0;
 
 void ttt_changeState(uint8_t s){
     display.clearDisplay();
@@ -182,34 +245,50 @@ void ttt_clickKey(uint8_t n){
 void ttt_checkWin(){
     if(ttt_fields[1] == ttt_fields[0] && ttt_fields[1]==ttt_fields[2] && ttt_fields[0]!=0 && ttt_fields[1]!=0 && ttt_fields[2]!=0){
       ttt_changeState(2);
+      //play a winner song 
+      tone(sound, 1600, 600);
       return;
     }
     else if(ttt_fields[3] == ttt_fields[4] && ttt_fields[4]==ttt_fields[5] && ttt_fields[3]!=0 && ttt_fields[4]!=0 && ttt_fields[5]!=0){
       ttt_changeState(2);
+      //play a winner song 
+      tone(sound, 1600, 600);
       return;
     }
     else if(ttt_fields[6] == ttt_fields[7] && ttt_fields[7]==ttt_fields[8] && ttt_fields[6]!=0 && ttt_fields[7]!=0 && ttt_fields[8]!=0){
       ttt_changeState(2);
+      //play a winner song 
+      tone(sound, 1600, 600);
       return;
     }
     else if(ttt_fields[0] == ttt_fields[3] && ttt_fields[3]==ttt_fields[6] && ttt_fields[0]!=0 && ttt_fields[3]!=0 && ttt_fields[6]!=0){
       ttt_changeState(2);
+      //play a winner song 
+      tone(sound, 1600, 600);
       return;
     }
     else if(ttt_fields[1] == ttt_fields[4] && ttt_fields[4]==ttt_fields[7] && ttt_fields[4]!=0 && ttt_fields[1]!=0 && ttt_fields[7]!=0){
       ttt_changeState(2);
+      //play a winner song 
+      tone(sound, 1600, 600);
       return;
     }
     else if(ttt_fields[5] == ttt_fields[2] && ttt_fields[2]==ttt_fields[8] && ttt_fields[5]!=0 && ttt_fields[8]!=0 && ttt_fields[2]!=0){
       ttt_changeState(2);
+      //play a winner song 
+      tone(sound, 1600, 600);
       return;
     }
     else if(ttt_fields[4] == ttt_fields[0] && ttt_fields[4]==ttt_fields[8] && ttt_fields[0]!=0 && ttt_fields[4]!=0 && ttt_fields[8]!=0){
       ttt_changeState(2);
+      //play a winner song 
+      tone(sound, 1600, 600);
       return;
     }
     else if(ttt_fields[4] == ttt_fields[2] && ttt_fields[4]==ttt_fields[6] && ttt_fields[2]!=0 && ttt_fields[4]!=0 && ttt_fields[6]!=0){
       ttt_changeState(2);
+      //play a winner song 
+      tone(sound, 1600, 600);
       return;
     }
 
@@ -221,6 +300,8 @@ void ttt_checkWin(){
 
     if(notEmpty==9){
       ttt_changeState(3);
+      //play a draw song 
+      tone(sound, 1200, 800);
     }
 }
 
@@ -228,157 +309,165 @@ void ttt_setup(){
   memset(ttt_fields, 0,9);
   ttt_turn = 0;
   ttt_t = 0;
-  display.setTextSize(2);
+  ttt_t2 = millis();
 }
 
 void ttt_loop(){
-  if(ttt_state==1){
-      display.drawLine(0, 22, 128, 22, WHITE);
-      display.drawLine(0, 44, 128, 44, WHITE);
-      display.drawLine(42, 0, 42, 64, WHITE);
-      display.drawLine(86, 0, 86, 64, WHITE);
+  if(ttt_state == 0){
+    display.setCursor(25, 26);
+    display.println("Tic Tac Toe");
+    display.display(); 
+
+    if(millis() - ttt_t2> 2000){
+      ttt_state = 1;
+      display.setTextSize(2);
+      display.clearDisplay();
+    }
+  }
+  else if(ttt_state==1){
+    display.drawLine(0, 22, 128, 22, WHITE);
+    display.drawLine(0, 44, 128, 44, WHITE);
+    display.drawLine(42, 0, 42, 64, WHITE);
+    display.drawLine(86, 0, 86, 64, WHITE);
+    display.display();
+
+    ttt_checkWin();
+
+    if(kImage == K1){
+      if(ttt_fields[0]==0){
+        display.setCursor(16, 4);
+        ttt_clickKey(0);
+      }
+      else{
+        tone(sound, 2000, 100);
+      }
+
+      //clear key
+      kImage = 0;
+    }
+    if(kImage == K2){
+      if(ttt_fields[1]==0){
+        display.setCursor(60, 4);
+        ttt_clickKey(1);
+      }
+      else{
+        tone(sound, 2000, 100);
+      }
+
+      //clear key
+      kImage = 0;
+    }
+    if(kImage == K3){
+      if(ttt_fields[2]==0){
+        display.setCursor(104, 4);
+        ttt_clickKey(2);
+      }
+      else{
+        tone(sound, 2000, 100);
+      }
+
+      //clear key
+      kImage = 0;
+    }
+    if(kImage == K4){
+      if(ttt_fields[3]==0){
+        display.setCursor(16,27);
+        ttt_clickKey(3);
+      }
+      else{
+        tone(sound, 2000, 100);
+      }
+
+      //clear key
+      kImage = 0;
+    }
+    if(kImage == K5){
+      if(ttt_fields[4]==0){
+        display.setCursor(60,27);
+        ttt_clickKey(4);
+      }
+      else{
+        tone(sound, 2000, 100);
+      }
+
+      //clear key
+      kImage = 0;
+    }
+    if(kImage == K6){
+      if(ttt_fields[5]==0){
+        display.setCursor(104, 27);
+        ttt_clickKey(5);
+      }
+      else{
+        tone(sound, 2000, 100);
+      }
+
+      //clear key
+      kImage = 0;
+    }
+    if(kImage == K7){
+      if(ttt_fields[6]==0){
+        display.setCursor(16,50);
+        ttt_clickKey(6);
+      }
+      else{
+        tone(sound, 2000, 100);
+      }
+
+      //clear key
+      kImage = 0;
+    }
+    if(kImage == K8){
+      if(ttt_fields[7]==0){
+        display.setCursor(60, 50);
+        ttt_clickKey(7);
+      }
+      else{
+        tone(sound, 2000, 100);
+      }
+
+      //clear key
+      kImage = 0;
+    }
+    if(kImage == K9){
+      if(ttt_fields[8]==0){
+        display.setCursor(104, 50);
+        ttt_clickKey(8);
+      }
+      else{
+        tone(sound, 2000, 100);
+      }
+
+      //clear key
+      kImage = 0;
+    }
+  }
+  else if(ttt_state==2){
+      display.setCursor(40, 26);
+      display.print(ttt_turn%2==0?'O':'X');
+      display.print(" won");
       display.display();
-  
-      ttt_checkWin();
+    
+    if(millis() - ttt_t> 3000){
+      memset(ttt_fields, 0, 9);
+      ttt_turn = 0;
+      noTone(sound);
 
-      if(kHit == K1){
-        if(ttt_fields[0]==0){
-          display.setCursor(16, 4);
-          ttt_clickKey(0);
-        }
-        else{
-          tone(sound, 1000, 200);
-        }
-
-        //clear key
-        kHit = 0;
-      }
-      if(kHit == K2){
-        if(ttt_fields[1]==0){
-          display.setCursor(60, 4);
-          ttt_clickKey(1);
-        }
-        else{
-          tone(sound, 1000, 200);
-        }
-
-        //clear key
-        kHit = 0;
-      }
-      if(kHit == K3){
-        if(ttt_fields[2]==0){
-          display.setCursor(104, 4);
-          ttt_clickKey(2);
-        }
-        else{
-          //tone(sound, 1000, 200);
-        }
-
-        //clear key
-        kHit = 0;
-      }
-      if(kHit == K4){
-        if(ttt_fields[3]==0){
-          display.setCursor(16,27);
-          ttt_clickKey(3);
-        }
-        else{
-          tone(sound, 1000, 200);
-        }
-
-        //clear key
-        kHit = 0;
-      }
-      if(kHit == K5){
-        if(ttt_fields[4]==0){
-          display.setCursor(60,27);
-          ttt_clickKey(4);
-        }
-        else{
-          tone(sound, 1000, 200);
-        }
-
-        //clear key
-        kHit = 0;
-      }
-      if(kHit == K6){
-        if(ttt_fields[5]==0){
-          display.setCursor(104, 27);
-          ttt_clickKey(5);
-        }
-        else{
-          tone(sound, 1000, 200);
-        }
-
-        //clear key
-        kHit = 0;
-      }
-      if(kHit == K7){
-        if(ttt_fields[6]==0){
-          display.setCursor(16,50);
-          ttt_clickKey(6);
-        }
-        else{
-          tone(sound, 1000, 200);
-        }
-
-        //clear key
-        kHit = 0;
-      }
-      if(kHit == K8){
-        if(ttt_fields[7]==0){
-          display.setCursor(60, 50);
-          ttt_clickKey(7);
-        }
-        else{
-          tone(sound, 1000, 200);
-        }
-
-        //clear key
-        kHit = 0;
-      }
-      if(kHit == K9){
-        if(ttt_fields[8]==0){
-          display.setCursor(104, 50);
-          ttt_clickKey(8);
-        }
-        else{
-          tone(sound, 1000, 200);
-        }
-
-        //clear key
-        kHit = 0;
-      }
+      ttt_changeState(1);
     }
-    else if(ttt_state==2){
-        display.setCursor(40, 26);
-        display.print(ttt_turn%2==0?'O':'X');
-        display.print(" won");
-        display.display();
+  }
+  else if(ttt_state==3){
+      display.setCursor(40, 26);
+      display.println("Draw");
+      display.display();
+    
+    if(millis() - ttt_t> 3000){
+      memset(ttt_fields, 0, 9);
+      ttt_turn = 0;
       
-        //play a winner song 
-        tone(sound, 600, 2000);
-      
-      if(millis() - ttt_t> 5000){
-        memset(ttt_fields, 0, 9);
-        ttt_turn = 0;
-        noTone(sound);
-
-        ttt_changeState(1);
-      }
+      ttt_changeState(1);
     }
-    else if(ttt_state==3){
-        display.setCursor(40, 26);
-        display.println("Draw");
-        display.display();
-      
-      if(millis() - ttt_t> 5000){
-        memset(ttt_fields, 0, 9);
-        ttt_turn = 0;
-        
-        ttt_changeState(1);
-      }
-    }
+  }
 }
 
 /////////////////////////
@@ -411,6 +500,7 @@ int8_t snake_circleCoordinates[2] = {};
 
 uint8_t snake_direction = UP;
 uint32_t snake_move = millis();
+uint32_t draw_field = millis();
 
 struct snake_Block{
   int8_t x;
@@ -429,7 +519,7 @@ struct snake_Block{
   }
 };
 
-snake_Block snake_SNAKE[20];
+snake_Block snake_SNAKE[30];
 
 bool snake_checkIfInsideSnake(uint8_t d, uint8_t value){
   for(uint8_t i = 0; i<snake_blockCount; i++){
@@ -510,6 +600,7 @@ void snake_checkCollision(){
     snake_addBlock();
     snake_drawFilledCircle();
     snake_points++;
+    tone(sound, 1800, 80);
   }
 }
 
@@ -518,6 +609,7 @@ void snake_checkGameOver(){
     if(snake_SNAKE[0].x == snake_SNAKE[i].x && snake_SNAKE[0].y == snake_SNAKE[i].y){
       snake_t = millis();
       snake_state = 2;
+      tone(sound, 8000, 60);
       break;
     }
   }
@@ -569,31 +661,26 @@ void snake_moveSnake(){
 
 void snake_reset(){
   snake_direction = UP;
-  memset(snake_SNAKE, 0, 20*sizeof(snake_Block));
+  memset(snake_SNAKE, 0, 30*sizeof(snake_Block));
   snake_blockCount = 0;
   snake_SNAKE[snake_blockCount] =  snake_Block(22,21);
   snake_blockCount++;
   snake_addBlock();
   snake_addBlock();
   snake_points = 0;
+  
+  snake_t2 = millis();
+  snake_move = millis();
+  draw_field = millis();
 }
 
 void snake_setup(){
-  memset(snake_SNAKE, 0, 20*sizeof(snake_Block));
-
-  //init snake
-  snake_SNAKE[snake_blockCount] =  snake_Block(22,21); //important, don't change the coordinates
-  snake_blockCount++;
-  snake_addBlock();
-  snake_addBlock();
-
   //generate random circle coordinates
   randomSeed(analogRead(A0));
   snake_circleCoordinates[0] = snake_coordinateX[random(17)];
   snake_circleCoordinates[1] = snake_coordinateY[random(8)];
 
-  snake_t2 = millis();
-  snake_move = millis();
+  snake_reset();
 }
 
 void snake_loop(){
@@ -602,7 +689,7 @@ void snake_loop(){
     display.println("Snake");
     display.display(); 
 
-    if(millis() - snake_t2> 3000){
+    if(millis() - snake_t2> 2000){
       snake_state = 1;
       display.clearDisplay();
     }
@@ -611,39 +698,43 @@ void snake_loop(){
     snake_checkCollision();
     snake_checkGameOver();
 
-    //refresh screen every second
-    if(millis() - snake_move >150){
+    //move snake
+    if(millis() - snake_move >170){
       snake_move = millis();
-      snake_drawField();
       snake_moveSnake();
     }
+    
+    //refresh screen
+    if(millis() - draw_field > 60){
+      draw_field = millis();
+      snake_drawField();
+    }
 
-    if(kHit == UP){
+    if(kImage == UP){
       if(snake_direction == DOWN) snake_direction = DOWN;
       else snake_direction = UP;
     }
-    if(kHit == RIGHT){
+    if(kImage == RIGHT){
       if(snake_direction == LEFT) snake_direction = LEFT;
       else snake_direction = RIGHT;
     }
-    if(kHit == LEFT){
+    if(kImage == LEFT){
       if(snake_direction == RIGHT) snake_direction = RIGHT;
       else snake_direction = LEFT;
     }
-    if(kHit == DOWN){
+    if(kImage == DOWN){
       if(snake_direction == UP) snake_direction = UP;
       else snake_direction = DOWN;
     }
   }
   else if(snake_state == 2){
-    tone(sound, 1000, 200);
     display.clearDisplay();
     display.setCursor(30, 26);
     display.print("Pkt: ");
     display.print(snake_points);
     display.display(); 
 
-    if(millis() - snake_t> 5000){
+    if(millis() - snake_t> 4000){
         snake_state = 1;
         display.clearDisplay();
         snake_reset();
@@ -756,6 +847,8 @@ void setup() {
   pinMode(K9, INPUT_PULLUP);
   pinMode(KOK, INPUT_PULLUP);
   pinMode(KNAV, INPUT_PULLUP);
+
+  kTime = millis();
 }
 
 void loop() {
