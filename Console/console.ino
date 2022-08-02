@@ -581,22 +581,20 @@ void snake_drawRect(uint16_t x, uint16_t y, uint8_t color){
 void snake_drawFilledCircle(){
   display.drawCircle(snake_circleCoordinates[0], snake_circleCoordinates[1], snake_circleRadius, BLACK);
   display.fillCircle(snake_circleCoordinates[0], snake_circleCoordinates[1], snake_circleRadius, BLACK);
-  //display.display();
-
+  
   uint8_t randomX;
   uint8_t randomY;
 
   do{
     randomX = snake_coordinateX[random(17)];
     randomY = snake_coordinateY[random(8)];
-  }while(snake_checkIfInsideSnake(X,randomX) || snake_checkIfInsideSnake(Y, randomY));
+  }while(snake_checkIfInsideSnake(X,randomX) && snake_checkIfInsideSnake(Y, randomY));
 
   snake_circleCoordinates[0] = randomX;
   snake_circleCoordinates[1] = randomY;
 
   display.drawCircle(snake_circleCoordinates[0], snake_circleCoordinates[1], snake_circleRadius, WHITE);
   display.fillCircle(snake_circleCoordinates[0], snake_circleCoordinates[1], snake_circleRadius, WHITE);
-  //display.display();
 }
 
 //draw the whole frame
@@ -886,7 +884,6 @@ void loop() {
   
   //menu
   if (state == MENU){
-    Serial.println("STATE: MENU");
     
     display.clearDisplay();
     display.setCursor(50, 8);
@@ -906,11 +903,9 @@ void loop() {
     display.display();
   }
   else if(state == TTT){
-    Serial.println("STATE: TTT");
     ttt_loop();
   }
   else if(state == SNAKE){
-    Serial.println("STATE: SNAKE");
     snake_loop();
   }
 
