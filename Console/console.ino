@@ -180,7 +180,7 @@ void buttonsAction(){
       kImage = 0;
     }
     //ok hit -> switch to selected game
-    if(kImage == KOK){
+    else if(kImage == KOK){
       tone(sound,8000, 30);
       if (menu_position == TTT){
         state = TTT;
@@ -196,6 +196,10 @@ void buttonsAction(){
       //clear key
       kImage = 0;
     }
+    else{
+      //clear key
+      kImage = 0;
+    }
   }
   else if(state == TTT){
     //ok hit -> switch to menu
@@ -208,6 +212,10 @@ void buttonsAction(){
       //clear key
       kImage = 0;
     }
+    else if(kImage == KNAV){
+      //clear key
+      kImage = 0;
+    }
   }
   else if(state == SNAKE){
     //ok hit -> switch to menu
@@ -216,6 +224,10 @@ void buttonsAction(){
       state = MENU;
       display.clearDisplay();
       
+      //clear key
+      kImage = 0;
+    }
+    else if(kImage == KNAV){
       //clear key
       kImage = 0;
     }
@@ -353,7 +365,7 @@ void ttt_loop(){
       //clear key
       kImage = 0;
     }
-    if(kImage == K2){
+    else if(kImage == K2){
       if(ttt_fields[1]==0){
         display.setCursor(60, 4);
         ttt_clickKey(1);
@@ -366,7 +378,7 @@ void ttt_loop(){
       //clear key
       kImage = 0;
     }
-    if(kImage == K3){
+    else if(kImage == K3){
       if(ttt_fields[2]==0){
         display.setCursor(104, 4);
         ttt_clickKey(2);
@@ -379,7 +391,7 @@ void ttt_loop(){
       //clear key
       kImage = 0;
     }
-    if(kImage == K4){
+    else if(kImage == K4){
       if(ttt_fields[3]==0){
         display.setCursor(16,27);
         ttt_clickKey(3);
@@ -392,7 +404,7 @@ void ttt_loop(){
       //clear key
       kImage = 0;
     }
-    if(kImage == K5){
+    else if(kImage == K5){
       if(ttt_fields[4]==0){
         display.setCursor(60,27);
         ttt_clickKey(4);
@@ -405,7 +417,7 @@ void ttt_loop(){
       //clear key
       kImage = 0;
     }
-    if(kImage == K6){
+    else if(kImage == K6){
       if(ttt_fields[5]==0){
         display.setCursor(104, 27);
         ttt_clickKey(5);
@@ -418,7 +430,7 @@ void ttt_loop(){
       //clear key
       kImage = 0;
     }
-    if(kImage == K7){
+    else if(kImage == K7){
       if(ttt_fields[6]==0){
         display.setCursor(16,50);
         ttt_clickKey(6);
@@ -431,7 +443,7 @@ void ttt_loop(){
       //clear key
       kImage = 0;
     }
-    if(kImage == K8){
+    else if(kImage == K8){
       if(ttt_fields[7]==0){
         display.setCursor(60, 50);
         ttt_clickKey(7);
@@ -444,7 +456,7 @@ void ttt_loop(){
       //clear key
       kImage = 0;
     }
-    if(kImage == K9){
+    else if(kImage == K9){
       if(ttt_fields[8]==0){
         display.setCursor(104, 50);
         ttt_clickKey(8);
@@ -454,6 +466,10 @@ void ttt_loop(){
         tone(sound, 2000, 100);
       }
 
+      //clear key
+      kImage = 0;
+    }
+    else{
       //clear key
       kImage = 0;
     }
