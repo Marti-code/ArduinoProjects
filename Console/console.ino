@@ -231,6 +231,25 @@ void buttonsAction(){
       //clear key
       kImage = 0;
     }
+    else if(kImage == K1){
+      //clear key
+      kImage = 0;
+    }
+    else if(kImage == K3){
+      //clear key
+      kImage = 0;
+    }
+    else if(kImage == K7){
+      //clear key
+      kImage = 0;
+    }
+    else if(kImage == K9){
+      //clear key
+      kImage = 0;
+    }else if(kImage == K5){
+      //clear key
+      kImage = 0;
+    }
   }
 }
 
